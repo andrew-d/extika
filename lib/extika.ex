@@ -35,7 +35,7 @@ defmodule ExTika do
 
 
   defp call_tika(file, flags) do
-    version = Application.fetch_env!(:extika, :tika_version)
+    {:ok, version} = Application.fetch_env(:extika, :tika_version)
     args = [
       "-jar",
       Path.join(@priv_dir, "tika-#{version}.jar"),

@@ -39,7 +39,7 @@ defmodule Mix.Tasks.Compile.Tika do
   @shortdoc "Downloads the Apache Tika JAR file(s)"
 
   def run(_) do
-    version = Application.fetch_env!(:extika, :tika_version)
+    {:ok, version} = Application.fetch_env(:extika, :tika_version)
     fetch_one(
       "tika-#{version}.jar",
       "http://www-us.apache.org/dist/tika/tika-app-#{version}.jar",
@@ -160,7 +160,7 @@ defmodule Mix.Tasks.Clean.Tika do
   @shortdoc "Cleans any downloaded JAR files"
 
   def run(_) do
-    version = Application.fetch_env!(:extika, :tika_version)
+    {:ok, version} = Application.fetch_env(:extika, :tika_version)
     names = [
       "tika-#{version}.jar",
     ]
