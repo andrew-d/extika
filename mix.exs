@@ -26,7 +26,11 @@ defmodule ExTika.Mixfile do
   end
 
   defp deps do
-    []
+    [
+      # Development / testing dependencies
+      {:dialyxir, "~> 0.3.5", only: :test},
+      {:ex_doc, "~> 0.12", only: :docs},
+    ]
   end
 end
 
