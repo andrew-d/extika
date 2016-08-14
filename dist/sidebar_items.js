@@ -1,0 +1,1 @@
+sidebarNodes={"exceptions":[],"extras":[{"id":"api-reference","title":"API Reference","headers":[]}],"modules":[{"id":"ExTika","title":"ExTika","functions":[{"id":"get_text/1","anchor":"get_text/1"},{"id":"get_text!/1","anchor":"get_text!/1"}]}],"protocols":[]}
