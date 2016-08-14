@@ -1,0 +1,2 @@
+defmodule ExTika do
+end
