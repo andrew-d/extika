@@ -1,16 +1,18 @@
 # ExTika
 
-**TODO: Add description**
+[![Build Status](https://travis-ci.org/andrew-d/extika.svg?branch=master)](https://travis-ci.org/andrew-d/extika)
+
+Wrapper around [Apache Tika][tika].
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+The package can be installed as:
 
   1. Add `extika` to your list of dependencies in `mix.exs`:
 
     ```elixir
     def deps do
-      [{:extika, "~> 0.1.0"}]
+      [{:extika, git: "https://github.com/andrew-d/extika.git"}]
     end
     ```
 
@@ -22,3 +24,5 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
     end
     ```
 
+
+[tika]: https://tika.apache.org/
