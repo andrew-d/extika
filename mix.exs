@@ -34,12 +34,11 @@ end
 defmodule Mix.Tasks.Compile.Tika do
   @shortdoc "Downloads the Apache Tika JAR file(s)"
 
-  @version "1.13"
-
   def run(_) do
+    version = Application.fetch_env!(:extika, :tika_version)
     fetch_one(
-      "tika-#{@version}.jar",
-      "http://www-us.apache.org/dist/tika/tika-app-#{@version}.jar",
+      "tika-#{version}.jar",
+      "http://www-us.apache.org/dist/tika/tika-app-#{version}.jar",
       "e340c3fee155b93eb4033feb2302264fff3772c80a5843a047876c44eff23df7"
     )
 
@@ -128,11 +127,10 @@ end
 defmodule Mix.Tasks.Clean.Tika do
   @shortdoc "Cleans any downloaded JAR files"
 
-  @version "1.13"
-
   def run(_) do
+    version = Application.fetch_env!(:extika, :tika_version)
     names = [
-      "tika-#{@version}.jar",
+      "tika-#{version}.jar",
     ]
 
     Enum.each(names, fn(name) ->
