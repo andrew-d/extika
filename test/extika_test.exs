@@ -20,7 +20,7 @@ defmodule ExTikaTest do
     text = "test.doc"
             |> test_file
             |> ExTika.get_text!
-            |> String.trim
+            |> trim
     assert text == "This is a DOC file."
   end
 
