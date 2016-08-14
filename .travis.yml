@@ -1,0 +1,44 @@
+language: elixir
+sudo: false
+
+# Elixir versions
+elixir:
+  - 1.0.5
+  - 1.1.1
+  - 1.2.0
+  - 1.3.2
+
+# Erlang versions
+otp_release:
+  - 17.5
+  - 18.1
+
+env:
+  global:
+    - MIX_ENV=test
+    - secure: VjeZpWWnBUMbfa4OzTe7x/eEmB3O1DrRol68djpE7lYO6GvPjGx9A2YsAf2tvItp6iellM3IQM2keOmDeD6LmRx1CoiChU0YnCfhwSZqJ32FJwQLt75+rD6J/c2HUlmn6IrqBB0BKJFEhiXgbhGbkR1LceePMOIJMlkakicC9vy14IaOB6kbJu103l4JwrlHEVg7u4EDyABnl3rtXHqPK6Wm+Xw9WI+CYhe0yyrTSnAYiuCQHNoiOD4S0JYXHnffSUD8ujfKIZI2LSs6cay//eYDlJv/fEyqHCuqyz2srvVhDG0LGxxu1qhKeYSobZ7VRP/w6HAnLxpralXMaMMmuhCJcdeFoSRjz/omtZGjlNmPIlHVzO3meiTFuiCRfXdukBtFPPTYsjPBMTVDHsE/Gd6AjIl6+r40ONTzB8qalBP5weAkovyNcI8kxvKoDhvprK4MMRvwuIAQ1YduwWqfThQjAQU2trG3RfPvXKodjT30vr4LXocHLkLaU4g+ybudakfqp8iUY3whlF0r4dDkJf/q5L84Rc/u/BZBg6v6nRh2A27f86z89SjIostE5Vk1QKr6qz8+x3aZhLGtlHpDoT/h5GNdJ+Txg2XTx6nMmTo/85mEHtYbX81Dly2zrqL8t8WP7Jesb8ZepcSRXbjhJ4vu8cu/MSpx16ieK24IWn4=
+
+# After we succeed, build docs and upload.  Only upload for the latest version
+# of Erlang/Elixir, though.
+after_success:
+  - mix deps.get --only docs
+  - MIX_ENV=docs mix docs
+  - |
+      test ${TRAVIS_PULL_REQUEST} == "false" && \
+      test ${TRAVIS_BRANCH} == "master" && \
+      test "${TRAVIS_ELIXIR_VERSION}" == "1.3.2" && \
+      test "${TRAVIS_OTP_RELEASE}" == "18.1" && \
+      ./push-docs.sh
+
+# Speed up the build by caching our dependencies and the downloaded Tika JAR.
+cache:
+  directories:
+    - deps
+    - priv
+
+# Need Java to run Tika
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+      - tree
