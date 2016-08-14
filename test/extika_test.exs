@@ -26,7 +26,7 @@ defmodule ExTikaTest do
 
 
   defp trim({:ok, text}) do
-    {:ok, String.trim(text)}
+    {:ok, trim(text)}
   end
 
   defp trim({:error, msg}) do
@@ -34,7 +34,11 @@ defmodule ExTikaTest do
   end
 
   defp trim(s) when is_binary(s) do
-    String.trim(s)
+    if :erlang.function_exported(String, :trim, 1) do
+      String.trim(s)
+    else
+      String.strip(s)
+    end
   end
 
   defp test_file(name) do
