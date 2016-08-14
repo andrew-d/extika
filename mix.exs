@@ -74,6 +74,9 @@ defmodule Mix.Tasks.Compile.Tika do
 
   # Streams the contents of a given URL to a file on disk
   defp fetch_url(url, dest) do
+    # Ensure the directory exists
+    File.mkdir_p!(Path.dirname(dest))
+
     {:ok, _} = Application.ensure_all_started(:ssl)
     {:ok, _} = Application.ensure_all_started(:inets)
 
@@ -81,10 +84,13 @@ defmodule Mix.Tasks.Compile.Tika do
     # the effects of using an HTTP proxy to this function
     {:ok, _pid} = :inets.start(:httpc, [{:profile, :extika}])
 
+    # Set proxy config.
+    proxy_config()
+
     headers = [{'user-agent', 'ExTika/#{System.version}'}]
     request = {:binary.bin_to_list(url), headers}
 
-    http_options = [relaxed: true] ++ Mix.Utils.proxy_config(url)
+    http_options = [relaxed: true]
     options = [stream: :binary.bin_to_list(dest)]
 
     case :httpc.request(:get, request, http_options, options, :extika) do
@@ -98,6 +104,28 @@ defmodule Mix.Tasks.Compile.Tika do
 
   after
     :inets.stop(:httpc, :extika)
+  end
+
+  # Sets any options necessary to configure HTTP proxies
+  defp proxy_config() do
+    http_proxy  = System.get_env("HTTP_PROXY")  || System.get_env("http_proxy")
+    https_proxy = System.get_env("HTTPS_PROXY") || System.get_env("https_proxy")
+    if http_proxy,  do: proxy(http_proxy)
+    if https_proxy, do: proxy(https_proxy)
+  end
+
+  defp proxy(proxy) do
+    uri  = URI.parse(proxy)
+
+    if uri.host && uri.port do
+      host = String.to_char_list(uri.host)
+      scheme = case uri.scheme do
+        "http" -> :proxy
+        "https" -> :https_proxy
+      end
+
+      :httpc.set_options([{scheme, {{host, uri.port}, []}}], :extika)
+    end
   end
 
   # Verifies that the hash of a file matches what's expected
