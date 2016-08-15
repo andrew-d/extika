@@ -90,7 +90,7 @@ text from over a thousand different file types.</p>
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#get_content_type/1">get_content_type(file)</a>
+    <a href="#get_content_type/2">get_content_type(file, opts \\ [])</a>
   </div>
   
     <div class="summary-synopsis"><p>Returns the content type of the document</p>
@@ -99,7 +99,7 @@ text from over a thousand different file types.</p>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#get_content_type!/1">get_content_type!(file)</a>
+    <a href="#get_content_type!/2">get_content_type!(file, opts \\ [])</a>
   </div>
   
     <div class="summary-synopsis"><p>Returns the content type of the document.  Fails on error</p>
@@ -108,7 +108,7 @@ text from over a thousand different file types.</p>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#get_language/1">get_language(file)</a>
+    <a href="#get_language/2">get_language(file, opts \\ [])</a>
   </div>
   
     <div class="summary-synopsis"><p>Returns the language of the document</p>
@@ -117,7 +117,7 @@ text from over a thousand different file types.</p>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#get_language!/1">get_language!(file)</a>
+    <a href="#get_language!/2">get_language!(file, opts \\ [])</a>
   </div>
   
     <div class="summary-synopsis"><p>Returns the language of the document.  Fails on error</p>
@@ -126,7 +126,7 @@ text from over a thousand different file types.</p>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#get_metadata/1">get_metadata(file)</a>
+    <a href="#get_metadata/2">get_metadata(file, opts \\ [])</a>
   </div>
   
     <div class="summary-synopsis"><p>Fetches metadata about the document</p>
@@ -135,7 +135,7 @@ text from over a thousand different file types.</p>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#get_metadata!/1">get_metadata!(file)</a>
+    <a href="#get_metadata!/2">get_metadata!(file, opts \\ [])</a>
   </div>
   
     <div class="summary-synopsis"><p>Fetches metadata about the document.  Fails on error</p>
@@ -144,7 +144,7 @@ text from over a thousand different file types.</p>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#get_text/1">get_text(file)</a>
+    <a href="#get_text/2">get_text(file, opts \\ [])</a>
   </div>
   
     <div class="summary-synopsis"><p>Extracts the text from the given file</p>
@@ -153,7 +153,7 @@ text from over a thousand different file types.</p>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#get_text!/1">get_text!(file)</a>
+    <a href="#get_text!/2">get_text!(file, opts \\ [])</a>
   </div>
   
     <div class="summary-synopsis"><p>Extracts the text from the given file.  Fails on error</p>
@@ -181,12 +181,12 @@ text from over a thousand different file types.</p>
             </a>
             Functions
           </h1>
-          <div class="detail" id="get_content_type/1">
+          <div class="detail" id="get_content_type/2">
   <div class="detail-header">
-    <a href="#get_content_type/1" class="detail-link" title="Link to this function">
+    <a href="#get_content_type/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">get_content_type(file)</span>
+    <span class="signature">get_content_type(file, opts \\ [])</span>
     
     
   </div>
@@ -195,7 +195,9 @@ text from over a thousand different file types.</p>
       <h4 class="specs-title">Specs</h4>
       <div class="specs-list">
         
-          <pre><code class="elixir">get_content_type(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>) :: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a></code></pre>
+          <pre><code class="elixir">get_content_type(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, <a href="http://elixir-lang.org/docs/stable/elixir/Keyword.html#t:t/0">Keyword.t</a>) ::
+  {:ok, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>} |
+  {:error, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>}</code></pre>
         
       </div>
     </div>
@@ -208,12 +210,12 @@ text from over a thousand different file types.</p>
 
   </section>
 </div>
-<div class="detail" id="get_content_type!/1">
+<div class="detail" id="get_content_type!/2">
   <div class="detail-header">
-    <a href="#get_content_type!/1" class="detail-link" title="Link to this function">
+    <a href="#get_content_type!/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">get_content_type!(file)</span>
+    <span class="signature">get_content_type!(file, opts \\ [])</span>
     
     
   </div>
@@ -222,7 +224,7 @@ text from over a thousand different file types.</p>
       <h4 class="specs-title">Specs</h4>
       <div class="specs-list">
         
-          <pre><code class="elixir">get_content_type!(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>) :: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a></code></pre>
+          <pre><code class="elixir">get_content_type!(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, <a href="http://elixir-lang.org/docs/stable/elixir/Keyword.html#t:t/0">Keyword.t</a>) :: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a></code></pre>
         
       </div>
     </div>
@@ -235,12 +237,12 @@ text from over a thousand different file types.</p>
 
   </section>
 </div>
-<div class="detail" id="get_language/1">
+<div class="detail" id="get_language/2">
   <div class="detail-header">
-    <a href="#get_language/1" class="detail-link" title="Link to this function">
+    <a href="#get_language/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">get_language(file)</span>
+    <span class="signature">get_language(file, opts \\ [])</span>
     
     
   </div>
@@ -249,7 +251,9 @@ text from over a thousand different file types.</p>
       <h4 class="specs-title">Specs</h4>
       <div class="specs-list">
         
-          <pre><code class="elixir">get_language(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>) :: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a></code></pre>
+          <pre><code class="elixir">get_language(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, <a href="http://elixir-lang.org/docs/stable/elixir/Keyword.html#t:t/0">Keyword.t</a>) ::
+  {:ok, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>} |
+  {:error, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>}</code></pre>
         
       </div>
     </div>
@@ -262,12 +266,12 @@ text from over a thousand different file types.</p>
 
   </section>
 </div>
-<div class="detail" id="get_language!/1">
+<div class="detail" id="get_language!/2">
   <div class="detail-header">
-    <a href="#get_language!/1" class="detail-link" title="Link to this function">
+    <a href="#get_language!/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">get_language!(file)</span>
+    <span class="signature">get_language!(file, opts \\ [])</span>
     
     
   </div>
@@ -276,7 +280,7 @@ text from over a thousand different file types.</p>
       <h4 class="specs-title">Specs</h4>
       <div class="specs-list">
         
-          <pre><code class="elixir">get_language!(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>) :: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a></code></pre>
+          <pre><code class="elixir">get_language!(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, <a href="http://elixir-lang.org/docs/stable/elixir/Keyword.html#t:t/0">Keyword.t</a>) :: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a></code></pre>
         
       </div>
     </div>
@@ -289,12 +293,12 @@ text from over a thousand different file types.</p>
 
   </section>
 </div>
-<div class="detail" id="get_metadata/1">
+<div class="detail" id="get_metadata/2">
   <div class="detail-header">
-    <a href="#get_metadata/1" class="detail-link" title="Link to this function">
+    <a href="#get_metadata/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">get_metadata(file)</span>
+    <span class="signature">get_metadata(file, opts \\ [])</span>
     
     
   </div>
@@ -303,7 +307,7 @@ text from over a thousand different file types.</p>
       <h4 class="specs-title">Specs</h4>
       <div class="specs-list">
         
-          <pre><code class="elixir">get_metadata(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>) ::
+          <pre><code class="elixir">get_metadata(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, <a href="http://elixir-lang.org/docs/stable/elixir/Keyword.html#t:t/0">Keyword.t</a>) ::
   {:ok, map} |
   {:error, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>}</code></pre>
         
@@ -319,12 +323,12 @@ iex&gt; meta[&quot;meta:creation-date&quot;]
 
   </section>
 </div>
-<div class="detail" id="get_metadata!/1">
+<div class="detail" id="get_metadata!/2">
   <div class="detail-header">
-    <a href="#get_metadata!/1" class="detail-link" title="Link to this function">
+    <a href="#get_metadata!/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">get_metadata!(file)</span>
+    <span class="signature">get_metadata!(file, opts \\ [])</span>
     
     
   </div>
@@ -333,7 +337,7 @@ iex&gt; meta[&quot;meta:creation-date&quot;]
       <h4 class="specs-title">Specs</h4>
       <div class="specs-list">
         
-          <pre><code class="elixir">get_metadata!(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>) :: map</code></pre>
+          <pre><code class="elixir">get_metadata!(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, <a href="http://elixir-lang.org/docs/stable/elixir/Keyword.html#t:t/0">Keyword.t</a>) :: map</code></pre>
         
       </div>
     </div>
@@ -347,12 +351,12 @@ iex&gt; meta[&quot;meta:creation-date&quot;]
 
   </section>
 </div>
-<div class="detail" id="get_text/1">
+<div class="detail" id="get_text/2">
   <div class="detail-header">
-    <a href="#get_text/1" class="detail-link" title="Link to this function">
+    <a href="#get_text/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">get_text(file)</span>
+    <span class="signature">get_text(file, opts \\ [])</span>
     
     
   </div>
@@ -361,7 +365,7 @@ iex&gt; meta[&quot;meta:creation-date&quot;]
       <h4 class="specs-title">Specs</h4>
       <div class="specs-list">
         
-          <pre><code class="elixir">get_text(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>) ::
+          <pre><code class="elixir">get_text(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, <a href="http://elixir-lang.org/docs/stable/elixir/Keyword.html#t:t/0">Keyword.t</a>) ::
   {:ok, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>} |
   {:error, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>}</code></pre>
         
@@ -372,16 +376,19 @@ iex&gt; meta[&quot;meta:creation-date&quot;]
     <p>Extracts the text from the given file.</p>
 <h2>Examples</h2>
 <pre><code class="iex elixir">iex&gt; ExTika.get_text(&quot;test/test-files/test.doc&quot;)
-{:ok, &quot;This is a DOC file.\n\n&quot;}</code></pre>
+{:ok, &quot;This is a DOC file.\n\n&quot;}
+
+iex&gt; ExTika.get_text(&quot;test/test-files/test-password.pdf&quot;, password: &quot;password&quot;)
+{:ok, &quot;\nThis is a password-protected PDF file.\n\n\n&quot;}</code></pre>
 
   </section>
 </div>
-<div class="detail" id="get_text!/1">
+<div class="detail" id="get_text!/2">
   <div class="detail-header">
-    <a href="#get_text!/1" class="detail-link" title="Link to this function">
+    <a href="#get_text!/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">get_text!(file)</span>
+    <span class="signature">get_text!(file, opts \\ [])</span>
     
     
   </div>
@@ -390,7 +397,7 @@ iex&gt; meta[&quot;meta:creation-date&quot;]
       <h4 class="specs-title">Specs</h4>
       <div class="specs-list">
         
-          <pre><code class="elixir">get_text!(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>) :: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a></code></pre>
+          <pre><code class="elixir">get_text!(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, <a href="http://elixir-lang.org/docs/stable/elixir/Keyword.html#t:t/0">Keyword.t</a>) :: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a></code></pre>
         
       </div>
     </div>
