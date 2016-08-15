@@ -20,25 +20,17 @@ defmodule ExTikaTest do
     text = "test.doc"
             |> test_file
             |> ExTika.get_text!
-            |> trim
+            |> ExTika.Utils.trim
     assert text == "This is a DOC file."
   end
 
 
   defp trim({:ok, text}) do
-    {:ok, trim(text)}
+    {:ok, ExTika.Utils.trim(text)}
   end
 
   defp trim({:error, msg}) do
     {:error, msg}
-  end
-
-  defp trim(s) when is_binary(s) do
-    if :erlang.function_exported(String, :trim, 1) do
-      String.trim(s)
-    else
-      String.strip(s)
-    end
   end
 
   defp test_file(name) do

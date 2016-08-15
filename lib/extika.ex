@@ -33,6 +33,72 @@ defmodule ExTika do
     text
   end
 
+  @doc ~S"""
+  Returns the language of the document.
+
+  ## Examples
+
+      iex> ExTika.get_language("test/test-files/test.doc")
+      {:ok, "en"}
+  """
+  @spec get_language(String.t) :: String.t
+  def get_language(file) do
+    case call_tika(file, ["--language"]) do
+      {:ok, lang} ->
+        {:ok, ExTika.Utils.trim(lang)}
+      {:err, msg} ->
+        {:ok, msg}
+    end
+  end
+
+  @doc ~S"""
+  Returns the language of the document.  Fails on error.
+
+  ## Examples
+
+      iex> ExTika.get_language!("test/test-files/test.doc")
+      "en"
+  """
+  @spec get_language!(String.t) :: String.t
+  def get_language!(file) do
+    {:ok, lang} = get_language(file)
+    lang
+  end
+
+  @doc ~S"""
+  Returns the content type of the document.
+
+  ## Examples
+
+      iex> ExTika.get_content_type("test/test-files/test.doc")
+      {:ok, "application/msword"}
+  """
+  @spec get_content_type(String.t) :: String.t
+  def get_content_type(file) do
+    case call_tika(file, ["--detect"]) do
+      {:ok, lang} ->
+        {:ok, ExTika.Utils.trim(lang)}
+      {:err, msg} ->
+        {:ok, msg}
+    end
+  end
+
+  @doc ~S"""
+  Returns the content type of the document.  Fails on error.
+
+  ## Examples
+
+      iex> ExTika.get_content_type!("test/test-files/test.doc")
+      "application/msword"
+  """
+  @spec get_content_type!(String.t) :: String.t
+  def get_content_type!(file) do
+    {:ok, lang} = get_content_type(file)
+    lang
+  end
+
+  ##################################################
+  ## HELPER FUNCTIONS
 
   defp call_tika(file, flags) do
     {:ok, version} = Application.fetch_env(:extika, :tika_version)
