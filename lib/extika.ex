@@ -46,7 +46,7 @@ defmodule ExTika do
     case call_tika(file, ["--language"]) do
       {:ok, lang} ->
         {:ok, ExTika.Utils.trim(lang)}
-      {:err, msg} ->
+      {:error, msg} ->
         {:ok, msg}
     end
   end
@@ -76,10 +76,10 @@ defmodule ExTika do
   @spec get_content_type(String.t) :: String.t
   def get_content_type(file) do
     case call_tika(file, ["--detect"]) do
-      {:ok, lang} ->
-        {:ok, ExTika.Utils.trim(lang)}
-      {:err, msg} ->
-        {:ok, msg}
+      {:ok, ct} ->
+        {:ok, ExTika.Utils.trim(ct)}
+      {:error, msg} ->
+        {:error, msg}
     end
   end
 
@@ -93,9 +93,45 @@ defmodule ExTika do
   """
   @spec get_content_type!(String.t) :: String.t
   def get_content_type!(file) do
-    {:ok, lang} = get_content_type(file)
-    lang
+    {:ok, ct} = get_content_type(file)
+    ct
   end
+
+  @doc ~S"""
+  Fetches metadata about the document.
+
+  ## Examples
+
+      iex> {:ok, meta} = ExTika.get_metadata("test/test-files/test.docx")
+      iex> meta["meta:creation-date"]
+      "2016-08-14T14:51:38Z"
+  """
+  @spec get_metadata(String.t) :: {:ok, map} | {:error, String.t}
+  def get_metadata(file) do
+    case call_tika(file, ["--json"]) do
+      {:ok, json} ->
+        Poison.Parser.parse(json)
+
+      {:error, msg} ->
+        {:error, msg}
+    end
+  end
+
+  @doc ~S"""
+  Fetches metadata about the document.  Fails on error.
+
+  ## Examples
+
+      iex> meta = ExTika.get_metadata!("test/test-files/test.docx")
+      iex> meta["meta:creation-date"]
+      "2016-08-14T14:51:38Z"
+  """
+  @spec get_metadata!(String.t) :: map
+  def get_metadata!(file) do
+    {:ok, meta} = get_metadata(file)
+    meta
+  end
+
 
   ##################################################
   ## HELPER FUNCTIONS
