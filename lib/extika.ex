@@ -13,10 +13,14 @@ defmodule ExTika do
 
       iex> ExTika.get_text("test/test-files/test.doc")
       {:ok, "This is a DOC file.\n\n"}
+
+      iex> ExTika.get_text("test/test-files/test-password.pdf", password: "password")
+      {:ok, "\nThis is a password-protected PDF file.\n\n\n"}
   """
   @spec get_text(String.t) :: {:ok, String.t} | {:error, String.t}
-  def get_text(file) do
-    call_tika(file, ["--text"])
+  @spec get_text(String.t, Keyword.t) :: {:ok, String.t} | {:error, String.t}
+  def get_text(file, opts \\ []) do
+    call_tika(file, ["--text"], opts)
   end
 
   @doc ~S"""
@@ -28,8 +32,9 @@ defmodule ExTika do
       "This is a DOC file.\n\n"
   """
   @spec get_text!(String.t) :: String.t
-  def get_text!(file) do
-    {:ok, text} = get_text(file)
+  @spec get_text!(String.t, Keyword.t) :: String.t
+  def get_text!(file, opts \\ []) do
+    {:ok, text} = get_text(file, opts)
     text
   end
 
@@ -41,9 +46,10 @@ defmodule ExTika do
       iex> ExTika.get_language("test/test-files/test.doc")
       {:ok, "en"}
   """
-  @spec get_language(String.t) :: String.t
-  def get_language(file) do
-    case call_tika(file, ["--language"]) do
+  @spec get_language(String.t) :: {:ok, String.t} | {:error, String.t}
+  @spec get_language(String.t, Keyword.t) :: {:ok, String.t} | {:error, String.t}
+  def get_language(file, opts \\ []) do
+    case call_tika(file, ["--language"], opts) do
       {:ok, lang} ->
         {:ok, ExTika.Utils.trim(lang)}
       {:error, msg} ->
@@ -60,8 +66,9 @@ defmodule ExTika do
       "en"
   """
   @spec get_language!(String.t) :: String.t
-  def get_language!(file) do
-    {:ok, lang} = get_language(file)
+  @spec get_language!(String.t, Keyword.t) :: String.t
+  def get_language!(file, opts \\ []) do
+    {:ok, lang} = get_language(file, opts)
     lang
   end
 
@@ -73,9 +80,10 @@ defmodule ExTika do
       iex> ExTika.get_content_type("test/test-files/test.doc")
       {:ok, "application/msword"}
   """
-  @spec get_content_type(String.t) :: String.t
-  def get_content_type(file) do
-    case call_tika(file, ["--detect"]) do
+  @spec get_content_type(String.t) :: {:ok, String.t} | {:error, String.t}
+  @spec get_content_type(String.t, Keyword.t) :: {:ok, String.t} | {:error, String.t}
+  def get_content_type(file, opts \\ []) do
+    case call_tika(file, ["--detect"], opts) do
       {:ok, ct} ->
         {:ok, ExTika.Utils.trim(ct)}
       {:error, msg} ->
@@ -92,8 +100,9 @@ defmodule ExTika do
       "application/msword"
   """
   @spec get_content_type!(String.t) :: String.t
-  def get_content_type!(file) do
-    {:ok, ct} = get_content_type(file)
+  @spec get_content_type!(String.t, Keyword.t) :: String.t
+  def get_content_type!(file, opts \\ []) do
+    {:ok, ct} = get_content_type(file, opts)
     ct
   end
 
@@ -107,8 +116,9 @@ defmodule ExTika do
       "2016-08-14T14:51:38Z"
   """
   @spec get_metadata(String.t) :: {:ok, map} | {:error, String.t}
-  def get_metadata(file) do
-    case call_tika(file, ["--json"]) do
+  @spec get_metadata(String.t, Keyword.t) :: {:ok, map} | {:error, String.t}
+  def get_metadata(file, opts \\ []) do
+    case call_tika(file, ["--json"], opts) do
       {:ok, json} ->
         Poison.Parser.parse(json)
 
@@ -127,8 +137,9 @@ defmodule ExTika do
       "2016-08-14T14:51:38Z"
   """
   @spec get_metadata!(String.t) :: map
-  def get_metadata!(file) do
-    {:ok, meta} = get_metadata(file)
+  @spec get_metadata!(String.t, Keyword.t) :: map
+  def get_metadata!(file, opts \\ []) do
+    {:ok, meta} = get_metadata(file, opts)
     meta
   end
 
@@ -136,13 +147,28 @@ defmodule ExTika do
   ##################################################
   ## HELPER FUNCTIONS
 
-  defp call_tika(file, flags) do
+  defp call_tika(file, flags, opts) do
     {:ok, version} = Application.fetch_env(:extika, :tika_version)
-    args = [
-      "-jar",
-      Path.join(@priv_dir, "tika-#{version}.jar"),
-    ] ++ flags ++ [file]
+    args = ["-jar", Path.join(@priv_dir, "tika-#{version}.jar")]
+    args = args ++ flags
 
+    args = if Keyword.get(opts, :pretty, false) do
+      args ++ ["--pretty-print"]
+    else
+      args
+    end
+
+    args = case Keyword.get(opts, :password) do
+      nil -> args
+      val -> args ++ ["--password=#{val}"]
+    end
+
+    args = case Keyword.get(opts, :encoding) do
+      nil -> args
+      val -> args ++ ["--encoding=#{val}"]
+    end
+
+    args = args ++ [file]
     case System.cmd("java", args) do
       {out, 0} ->
         {:ok, out}
