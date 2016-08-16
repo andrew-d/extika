@@ -148,7 +148,12 @@ defmodule ExTika do
   ## HELPER FUNCTIONS
 
   defp call_tika(file, flags, opts) do
-    {:ok, version} = Application.fetch_env(:extika, :tika_version)
+    version = File.read!(Path.join([
+      __DIR__,
+      "..",
+      ".tika-version",
+    ])) |> ExTika.Utils.trim
+
     args = ["-jar", Path.join(@priv_dir, "tika-#{version}.jar")]
     args = args ++ flags
 

@@ -29,6 +29,7 @@ defmodule ExTika.Mixfile do
   defp package do
     [
       name: :extika,
+      files: ["lib", "mix.exs", "README*", "readme*", "LICENSE*", "license*", ".tika-version"],
       maintainers: ["Andrew Dunham"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/andrew-d/extika",
@@ -45,6 +46,14 @@ defmodule ExTika.Mixfile do
       {:ex_doc, "~> 0.12", only: :docs},
     ]
   end
+
+  def trim(s) do
+    if :erlang.function_exported(String, :trim, 1) do
+      String.trim(s)
+    else
+      String.strip(s)
+    end
+  end
 end
 
 
@@ -52,7 +61,9 @@ defmodule Mix.Tasks.Compile.Tika do
   @shortdoc "Downloads the Apache Tika JAR file(s)"
 
   def run(_) do
-    {:ok, version} = Application.fetch_env(:extika, :tika_version)
+    version = File.read!(".tika-version")
+    |> ExTika.Mixfile.trim
+
     fetch_one(
       "tika-#{version}.jar",
       "http://www-us.apache.org/dist/tika/tika-app-#{version}.jar",
@@ -173,7 +184,9 @@ defmodule Mix.Tasks.Clean.Tika do
   @shortdoc "Cleans any downloaded JAR files"
 
   def run(_) do
-    {:ok, version} = Application.fetch_env(:extika, :tika_version)
+    version = File.read!(".tika-version")
+    |> ExTika.Mixfile.trim
+
     names = [
       "tika-#{version}.jar",
     ]
