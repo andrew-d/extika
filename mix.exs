@@ -6,6 +6,7 @@ defmodule ExTika.Mixfile do
       app: :extika,
       description: "Wrapper around Apache Tika",
       version: "0.0.1",
+      package: package(),
       elixir: "~> 1.0",
       compilers: [:tika | Mix.compilers],
       build_embedded: Mix.env == :prod,
@@ -22,6 +23,16 @@ defmodule ExTika.Mixfile do
   defp aliases do
     [
       clean: ["clean", "clean.tika"],
+    ]
+  end
+
+  defp package do
+    [
+      name: :extika,
+      maintainers: ["Andrew Dunham"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/andrew-d/extika",
+               "Docs" => "https://andrew-d.github.io/extika/"},
     ]
   end
 

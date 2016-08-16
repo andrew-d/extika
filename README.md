@@ -12,7 +12,7 @@ The package can be installed as:
 
     ```elixir
     def deps do
-      [{:extika, git: "https://github.com/andrew-d/extika.git"}]
+      [{:extika, "~> 0.0.1"}]
     end
     ```
 
