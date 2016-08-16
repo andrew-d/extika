@@ -43,7 +43,7 @@ defmodule ExTika.Mixfile do
 
       # Development / testing dependencies
       {:dialyxir, "~> 0.3.5", only: :test},
-      {:ex_doc, "~> 0.12", only: :docs},
+      {:ex_doc, "~> 0.12", only: :dev},
     ]
   end
 

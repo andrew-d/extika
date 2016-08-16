@@ -20,8 +20,8 @@ env:
 # After we succeed, build docs and upload.  Only upload for the latest version
 # of Erlang/Elixir, though.
 after_success:
-  - mix deps.get --only docs
-  - MIX_ENV=docs mix docs
+  - mix deps.get --only dev
+  - MIX_ENV=dev mix docs
   - |
       test ${TRAVIS_PULL_REQUEST} == "false" && \
       test ${TRAVIS_BRANCH} == "master" && \
