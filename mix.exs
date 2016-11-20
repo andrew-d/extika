@@ -7,7 +7,7 @@ defmodule ExTika.Mixfile do
       description: "Wrapper around Apache Tika",
       version: "0.0.2",
       package: package(),
-      elixir: "~> 1.0",
+      elixir: "~> 1.1",
       compilers: [:tika | Mix.compilers],
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
