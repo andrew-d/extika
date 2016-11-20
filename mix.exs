@@ -29,7 +29,7 @@ defmodule ExTika.Mixfile do
   defp package do
     [
       name: :extika,
-      files: ["lib", "mix.exs", "README*", "readme*", "LICENSE*", "license*", ".tika-version"],
+      files: ["lib", "mix.exs", "README*", "LICENSE*", ".tika-version"],
       maintainers: ["Andrew Dunham"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/andrew-d/extika",
