@@ -66,8 +66,8 @@ defmodule Mix.Tasks.Compile.Tika do
 
     fetch_one(
       "tika-#{version}.jar",
-      "http://www-us.apache.org/dist/tika/tika-app-#{version}.jar",
       "403847bf7ac6f55412949e32c5bc91faca57b1d683d191ee9ccb8d06623a2ef6"
+      "https://archive.apache.org/dist/tika/tika-app-#{version}.jar",
     )
 
     Mix.shell.info("Done!")
