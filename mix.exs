@@ -114,7 +114,7 @@ defmodule Mix.Tasks.Compile.Tika do
     headers = [{'user-agent', 'ExTika/#{System.version}'}]
     request = {:binary.bin_to_list(url), headers}
 
-    http_options = [relaxed: true]
+    http_options = [relaxed: true] ++ proxy_auth(url)
     options = [stream: :binary.bin_to_list(dest)]
 
     case :httpc.request(:get, request, http_options, options, :extika) do
@@ -151,6 +151,45 @@ defmodule Mix.Tasks.Compile.Tika do
       :httpc.set_options([{scheme, {{host, uri.port}, []}}], :extika)
     end
   end
+
+  defp proxy_auth(url) do
+    # url scheme
+    url
+    |> get_scheme
+    |> get_proxy_auth_from_env()
+  end
+
+  defp get_scheme(url) do
+    cond do
+      String.starts_with?(url, "http://") -> :http
+      String.starts_with?(url, "https://") -> :https
+    end
+  end
+
+  defp get_proxy_auth_from_env(:http) do
+    proxy = System.get_env("HTTP_PROXY") || System.get_env("http_proxy")
+    get_proxy_auth_from_proxy_url(proxy)
+  end
+
+  defp get_proxy_auth_from_env(:https) do
+    proxy = System.get_env("HTTPS_PROXY") || System.get_env("https_proxy")
+    get_proxy_auth_from_proxy_url(proxy)
+  end
+
+  defp get_proxy_auth_from_proxy_url(proxy) do
+    # remove trailing / from proxy url
+    proxy = String.trim(proxy, "/")
+    # http://username:password@ip:port
+    regex = Regex.compile!("(http|https)://(?<username>.+):(?<password>.+)@(.+):(.*)")
+
+    if Regex.match?(regex, proxy) do
+      %{"username" => username, "password" => password} = Regex.named_captures(regex, proxy)
+      [proxy_auth: {to_charlist(username), to_charlist(password)}]
+    else
+      []
+    end
+  end
+
 
   # Verifies that the hash of a file matches what's expected
   defp verify_checksum(path, expected) do
