@@ -156,7 +156,8 @@ defmodule Mix.Tasks.Compile.Tika do
     # url scheme
     url
     |> get_scheme
-    |> get_proxy_auth_from_env()
+    |> get_proxy_url
+    |> get_proxy_auth_from_proxy_url()
   end
 
   defp get_scheme(url) do
@@ -166,30 +167,24 @@ defmodule Mix.Tasks.Compile.Tika do
     end
   end
 
-  defp get_proxy_auth_from_env(:http) do
-    proxy = System.get_env("HTTP_PROXY") || System.get_env("http_proxy")
-    get_proxy_auth_from_proxy_url(proxy)
+  defp get_proxy_url(:http) do
+    System.get_env("HTTP_PROXY") || System.get_env("http_proxy")
   end
 
-  defp get_proxy_auth_from_env(:https) do
-    proxy = System.get_env("HTTPS_PROXY") || System.get_env("https_proxy")
-    get_proxy_auth_from_proxy_url(proxy)
+  defp get_proxy_url(:https) do
+    System.get_env("HTTPS_PROXY") || System.get_env("https_proxy")
   end
 
-  defp get_proxy_auth_from_proxy_url(proxy) do
-    # remove trailing / from proxy url
-    proxy = String.trim(proxy, "/")
-    # http://username:password@ip:port
-    regex = Regex.compile!("(http|https)://(?<username>.+):(?<password>.+)@(.+):(.*)")
+  defp get_proxy_auth_from_proxy_url(proxy_url) do
+    parsed = URI.parse(proxy_url)
 
-    if Regex.match?(regex, proxy) do
-      %{"username" => username, "password" => password} = Regex.named_captures(regex, proxy)
+    if parsed.userinfo do
+      [username, password] = String.split(parsed.userinfo, ":", parts: 2)
       [proxy_auth: {to_charlist(username), to_charlist(password)}]
     else
       []
     end
   end
-
 
   # Verifies that the hash of a file matches what's expected
   defp verify_checksum(path, expected) do
