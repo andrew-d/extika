@@ -175,6 +175,7 @@ defmodule Mix.Tasks.Compile.Tika do
     System.get_env("HTTPS_PROXY") || System.get_env("https_proxy")
   end
 
+  defp get_proxy_auth_from_proxy_url(nil), do: []
   defp get_proxy_auth_from_proxy_url(proxy_url) do
     parsed = URI.parse(proxy_url)
 
