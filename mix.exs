@@ -114,7 +114,7 @@ defmodule Mix.Tasks.Compile.Tika do
     headers = [{'user-agent', 'ExTika/#{System.version}'}]
     request = {:binary.bin_to_list(url), headers}
 
-    http_options = [relaxed: true]
+    http_options = [relaxed: true] ++ proxy_auth(url)
     options = [stream: :binary.bin_to_list(dest)]
 
     case :httpc.request(:get, request, http_options, options, :extika) do
@@ -149,6 +149,41 @@ defmodule Mix.Tasks.Compile.Tika do
       end
 
       :httpc.set_options([{scheme, {{host, uri.port}, []}}], :extika)
+    end
+  end
+
+  defp proxy_auth(url) do
+    # url scheme
+    url
+    |> get_scheme
+    |> get_proxy_url
+    |> get_proxy_auth_from_proxy_url()
+  end
+
+  defp get_scheme(url) do
+    cond do
+      String.starts_with?(url, "http://") -> :http
+      String.starts_with?(url, "https://") -> :https
+    end
+  end
+
+  defp get_proxy_url(:http) do
+    System.get_env("HTTP_PROXY") || System.get_env("http_proxy")
+  end
+
+  defp get_proxy_url(:https) do
+    System.get_env("HTTPS_PROXY") || System.get_env("https_proxy")
+  end
+
+  defp get_proxy_auth_from_proxy_url(nil), do: []
+  defp get_proxy_auth_from_proxy_url(proxy_url) do
+    parsed = URI.parse(proxy_url)
+
+    if parsed.userinfo do
+      [username, password] = String.split(parsed.userinfo, ":", parts: 2)
+      [proxy_auth: {to_charlist(username), to_charlist(password)}]
+    else
+      []
     end
   end
 
