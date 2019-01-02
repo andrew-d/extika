@@ -39,20 +39,12 @@ defmodule ExTika.Mixfile do
 
   defp deps do
     [
-      {:poison, "~> 2.0"},
+      {:poison, "~> 3.0"},
 
       # Development / testing dependencies
       {:dialyxir, "~> 0.3.5", only: :test},
       {:ex_doc, "~> 0.12", only: :dev},
     ]
-  end
-
-  def trim(s) do
-    if :erlang.function_exported(String, :trim, 1) do
-      String.trim(s)
-    else
-      String.strip(s)
-    end
   end
 end
 
@@ -62,7 +54,7 @@ defmodule Mix.Tasks.Compile.Tika do
 
   def run(_) do
     version = File.read!(".tika-version")
-    |> ExTika.Mixfile.trim
+    |> String.trim
 
     fetch_one(
       "tika-#{version}.jar",
@@ -142,7 +134,7 @@ defmodule Mix.Tasks.Compile.Tika do
     uri  = URI.parse(proxy)
 
     if uri.host && uri.port do
-      host = String.to_char_list(uri.host)
+      host = String.to_charlist(uri.host)
       scheme = case uri.scheme do
         "http" -> :proxy
         "https" -> :https_proxy
@@ -220,7 +212,7 @@ defmodule Mix.Tasks.Clean.Tika do
 
   def run(_) do
     version = File.read!(".tika-version")
-    |> ExTika.Mixfile.trim
+    |> String.trim
 
     names = [
       "tika-#{version}.jar",
