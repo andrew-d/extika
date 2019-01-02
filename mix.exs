@@ -42,8 +42,8 @@ defmodule ExTika.Mixfile do
       {:poison, "~> 3.0"},
 
       # Development / testing dependencies
-      {:dialyxir, "~> 0.3.5", only: :test},
-      {:ex_doc, "~> 0.12", only: :dev},
+      {:dialyxir, "~> 0.5", only: :test},
+      {:ex_doc, "~> 0.19", only: :dev},
     ]
   end
 end
